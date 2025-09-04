@@ -1,4 +1,3 @@
----
 name: datetime
 on:
   push:
@@ -22,5 +21,5 @@ jobs:
           echo "Current date and time: 'date /t'" 
       - name: Print current date and time (Powershell)
         shell: pwsh
-        run: >
+        run: |
           echo "Current date and time: $(Get-Date -Format 'yyyy-MM-dd HH:mm:ss')"
