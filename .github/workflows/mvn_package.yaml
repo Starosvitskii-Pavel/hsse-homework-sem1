@@ -1,0 +1,21 @@
+name: mvn_package
+on:
+  push:
+    branches:
+      - "*"
+  pull_request:
+    branches:
+      - "*"
+jobs:
+  package_ubuntu:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Maven package command
+        run: |
+          mvn package
+  datetime_windows:
+    runs-on: windows-latest
+    steps:
+      - name: Maven package command
+        run: |
+          mvn package
