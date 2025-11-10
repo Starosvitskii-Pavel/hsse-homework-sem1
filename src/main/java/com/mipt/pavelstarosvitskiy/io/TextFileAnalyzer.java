@@ -54,7 +54,7 @@ public class TextFileAnalyzer {
           line = reader.readLine();
         }
     } catch (IOException e) {
-      System.err.println("Ошибка чтения файла: " + e.getMessage());
+      System.err.println("Could not read file: " + e.getMessage());
     }
     return new AnalysisResult(lineCount, wordCount, charCount);
   }
