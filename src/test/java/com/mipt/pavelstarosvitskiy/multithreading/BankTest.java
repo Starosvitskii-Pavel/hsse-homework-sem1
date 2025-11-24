@@ -56,8 +56,8 @@ class BankTest {
 
     @Test
     public void shouldBeDeadlocked() throws InterruptedException {
-        BankAccount from = new BankAccount(1000000);
-        BankAccount to = new BankAccount(1000000);
+        BankAccount from = new BankAccount(100000);
+        BankAccount to = new BankAccount(100000);
         Bank mtsBank = new Bank();
 
         assertTrue(isDeadlocked(mtsBank::sendToAccountDeadlock, from, to));
@@ -65,8 +65,8 @@ class BankTest {
 
     @Test
     public void shouldNotBeDeadlocked() throws InterruptedException {
-        BankAccount from = new BankAccount(1000000);
-        BankAccount to = new BankAccount(1000000);
+        BankAccount from = new BankAccount(100000);
+        BankAccount to = new BankAccount(100000);
         Bank mtsBank = new Bank();
 
         assertFalse(isDeadlocked(mtsBank::sendToAccount, from, to));
