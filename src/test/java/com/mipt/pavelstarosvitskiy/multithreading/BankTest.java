@@ -87,8 +87,8 @@ class BankTest {
             if (i % 2 == 0) {
                 thread = new Thread(
                         () -> {
-                            for (int j = 0; j < 100; j++) {
-                                bankFunction.run(first, second, 100);
+                            for (int j = 0; j < 1000; j++) {
+                                bankFunction.run(first, second, 10);
                                 successfulOperationCount.addAndGet(1);
                             }
                         }
@@ -98,8 +98,8 @@ class BankTest {
             else {
                 thread = new Thread(
                         () -> {
-                            for (int j = 0; j < 100; j++) {
-                                bankFunction.run(second, first, 100);
+                            for (int j = 0; j < 1000; j++) {
+                                bankFunction.run(second, first, 10);
                                 successfulOperationCount.addAndGet(1);
                             }
                         }
@@ -110,10 +110,10 @@ class BankTest {
             thread.start();
         }
 
-        Thread.sleep(100);
+        Thread.sleep(1000);
 
         for (Thread thread : threads) thread.interrupt();
 
-        return (successfulOperationCount.intValue() != 1000);
+        return (successfulOperationCount.intValue() != 10000);
     }
 }
