@@ -12,6 +12,7 @@ import java.util.Optional;
 public interface TaskRepository {
     /**
      * Сохранить (создать или обновить) задачу.
+     *
      * @param task задача для сохранения
      * @return сохраненная задача
      */
@@ -19,6 +20,7 @@ public interface TaskRepository {
 
     /**
      * Найти задачу по ID.
+     *
      * @param id идентификатор задачи
      * @return Optional с задачей или пустой Optional, если задача не найдена
      */
@@ -26,12 +28,14 @@ public interface TaskRepository {
 
     /**
      * Получить список всех задач.
+     *
      * @return список задач
      */
     List<Task> findAll();
 
     /**
      * Удалить задачу по ID.
+     *
      * @param id идентификатор задачи
      */
     void deleteById(String id);

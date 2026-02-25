@@ -16,7 +16,7 @@ public class StubTaskRepository implements TaskRepository {
 
     @Override
     public Optional<Task> findById(String id) {
-    return Optional.of(new Task("1", "Stub task", "Description", false));
+        return Optional.of(new Task("1", "Stub task", "Description", false));
     }
 
     @Override

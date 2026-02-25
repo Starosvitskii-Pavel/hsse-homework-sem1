@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -20,6 +21,10 @@ public class InMemoryTaskRepository implements TaskRepository {
 
     @Override
     public Task save(Task task) {
+        if (task.getId() == null) {
+            task.setId(UUID.randomUUID().toString());
+        }
+
         tasks.put(task.getId(), task);
         return task;
     }

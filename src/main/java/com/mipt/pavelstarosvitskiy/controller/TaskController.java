@@ -1,11 +1,14 @@
 package com.mipt.pavelstarosvitskiy.controller;
 
 import com.mipt.pavelstarosvitskiy.model.Task;
+import com.mipt.pavelstarosvitskiy.service.PrototypeScopedBean;
+import com.mipt.pavelstarosvitskiy.service.RequestScopedBean;
 import com.mipt.pavelstarosvitskiy.service.TaskService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,22 +16,32 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
-/** REST-контроллер для управления задачами. Предоставляет API для операций CRUD. */
+/**
+ * REST-контроллер для управления задачами. Предоставляет API для операций CRUD.
+ */
 @RestController
 @RequestMapping("/api/tasks")
 public class TaskController {
-  private final TaskService taskService;
+    private final TaskService taskService;
 
-  public TaskController(TaskService taskService) {
-    this.taskService = taskService;
-  }
+    private final RequestScopedBean requestScopedBean;
+    private final PrototypeScopedBean prototypeScopedBean;
 
-  /**
-   * POST /api/tasks Создать новую задачу. Принимает JSON с задачей, возвращает созданную задачу.
-   */
-  public Task createTask(@RequestBody Task task) {
-    return taskService.saveTask(task);
-  }
+    public TaskController(TaskService taskService, RequestScopedBean requestScopedBean, PrototypeScopedBean prototypeScopedBean) {
+        this.taskService = taskService;
+        this.requestScopedBean = requestScopedBean;
+        this.prototypeScopedBean = prototypeScopedBean;
+
+        System.out.println(">>> Контроллер создан. Prototype ID: " + prototypeScopedBean.getInstanceId());
+    }
+
+    /**
+     * POST /api/tasks Создать новую задачу. Принимает JSON с задачей, возвращает созданную задачу.
+     */
+    @PostMapping
+    public Task createTask(@RequestBody Task task) {
+        return taskService.saveTask(task);
+    }
 
     /**
      * GET /api/tasks/{id}
@@ -36,12 +49,9 @@ public class TaskController {
      * Возвращает 200 OK и задачу, либо 404 Not Found.
      */
     @GetMapping("/{id}")
-  public ResponseEntity<Task> getTaskById(@PathVariable String id) {
-    return taskService
-        .getTaskById(id)
-        .map(ResponseEntity::ok)
-        .orElse(ResponseEntity.notFound().build());
-  }
+    public ResponseEntity<Task> getTaskById(@PathVariable String id) {
+        return taskService.getTaskById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    }
 
     /**
      * GET /api/tasks
@@ -49,6 +59,9 @@ public class TaskController {
      */
     @GetMapping
     public List<Task> getAllTasks() {
+        System.out.println("Обработка запроса: " + requestScopedBean.getRequestId());
+        System.out.println("Prototype внутри контроллера: " + prototypeScopedBean.getInstanceId());
+
         return taskService.getAllTasks();
     }
 

@@ -7,24 +7,26 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-/** Сервис статистики (демонстрационный). */
+/**
+ * Сервис статистики (демонстрационный).
+ */
 @Service
 public class TaskStatisticsService {
-  private final TaskRepository primaryRepository;
-  private final TaskRepository stubRepository;
+    private final TaskRepository primaryRepository;
+    private final TaskRepository stubRepository;
 
-  /**
-   * Внедрение двух разных репозиториев одного интерфейса.
-   *
-   * @param primaryRepository внедрится InMemoryTaskRepository
-   * @param stubRepository внедрится StubTaskRepository
-   */
-  public TaskStatisticsService(
-      TaskRepository primaryRepository,
-      @Qualifier("stubTaskRepository") TaskRepository stubRepository) {
-    this.primaryRepository = primaryRepository;
-    this.stubRepository = stubRepository;
-  }
+    /**
+     * Внедрение двух разных репозиториев одного интерфейса.
+     *
+     * @param primaryRepository внедрится InMemoryTaskRepository
+     * @param stubRepository    внедрится StubTaskRepository
+     */
+    public TaskStatisticsService(
+            TaskRepository primaryRepository,
+            @Qualifier("stubTaskRepository") TaskRepository stubRepository) {
+        this.primaryRepository = primaryRepository;
+        this.stubRepository = stubRepository;
+    }
 
     /**
      * Метод для сравнения количества задач в разных репозиториях.

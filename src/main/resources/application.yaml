@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: ToDoList
+  profiles:
+    active: dev
+
+app:
+  version: 1.0.0
+  company-name: "MIPT"
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+server:
+  port: 8080
+
+logging:
+  level:
+    com.mipt.pavelstarosvitskiy: DEBUG
+---
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+server:
+  port: 9090
+logging:
+  level:
+    com.mipt.pavelstarosvitskiy: INFO
