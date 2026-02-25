@@ -1,0 +1,86 @@
+package com.mipt.pavelstarosvitskiy.model;
+
+import java.util.Objects;
+
+/**
+ * Представляет собой задачу в To-Do листе. Содержит базовую информацию о задаче и её статусе
+ * выполнения.
+ */
+public class Task {
+  private String id;
+  private String title;
+  private String description;
+  private Boolean completed;
+
+  public Task() {}
+
+  /**
+   * @param id уникальный идентификатор задачи
+   * @param title заголовок задачи
+   * @param description подробное описание
+   * @param completed статус выполнения (true - выполнена, false - не выполнена)
+   */
+  public Task(String id, String title, String description, Boolean completed) {
+    this.id = id;
+    this.title = title;
+    this.description = description;
+    this.completed = completed;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (o == null || getClass() != o.getClass()) return false;
+    Task task = (Task) o;
+    return Objects.equals(id, task.id)
+        && Objects.equals(title, task.title)
+        && Objects.equals(description, task.description)
+        && Objects.equals(completed, task.completed);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(id, title, description, completed);
+  }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", completed=" + completed +
+                '}';
+    }
+
+    public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
+
+  public String getTitle() {
+    return title;
+  }
+
+  public void setTitle(String title) {
+    this.title = title;
+  }
+
+  public String getDescription() {
+    return description;
+  }
+
+  public void setDescription(String description) {
+    this.description = description;
+  }
+
+  public Boolean getCompleted() {
+    return completed;
+  }
+
+  public void setCompleted(Boolean completed) {
+    this.completed = completed;
+  }
+}
