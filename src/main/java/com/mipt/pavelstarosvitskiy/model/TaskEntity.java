@@ -6,13 +6,25 @@ import java.util.Objects;
  * Представляет собой задачу в To-Do листе. Содержит базовую информацию о задаче и её статусе
  * выполнения.
  */
-public class Task {
+public class TaskEntity {
+    /**
+     * Уникальный идентификатор задачи
+     */
     private String id;
+    /**
+     * Заголовок задачи
+     */
     private String title;
+    /**
+     * Подробное описание
+     */
     private String description;
+    /**
+     * Статус выполнения (true - выполнена, false - не выполнена)
+     */
     private Boolean completed;
 
-    public Task() {
+    public TaskEntity() {
     }
 
     /**
@@ -21,7 +33,7 @@ public class Task {
      * @param description подробное описание
      * @param completed   статус выполнения (true - выполнена, false - не выполнена)
      */
-    public Task(String id, String title, String description, Boolean completed) {
+    public TaskEntity(String id, String title, String description, Boolean completed) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -31,11 +43,8 @@ public class Task {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        Task task = (Task) o;
-        return Objects.equals(id, task.id)
-                && Objects.equals(title, task.title)
-                && Objects.equals(description, task.description)
-                && Objects.equals(completed, task.completed);
+        TaskEntity task = (TaskEntity) o;
+        return Objects.equals(id, task.id) && Objects.equals(title, task.title) && Objects.equals(description, task.description) && Objects.equals(completed, task.completed);
     }
 
     @Override
@@ -45,12 +54,7 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task{" +
-                "id='" + id + '\'' +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", completed=" + completed +
-                '}';
+        return "Task{" + "id='" + id + '\'' + ", title='" + title + '\'' + ", description='" + description + '\'' + ", completed=" + completed + '}';
     }
 
     public String getId() {

@@ -1,6 +1,6 @@
 package com.mipt.pavelstarosvitskiy.service;
 
-import com.mipt.pavelstarosvitskiy.model.Task;
+import com.mipt.pavelstarosvitskiy.model.TaskEntity;
 import com.mipt.pavelstarosvitskiy.repository.TaskRepository;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
@@ -20,7 +20,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class TaskService {
     private final TaskRepository repository;
 
-    private final Map<String, Task> taskCache = new ConcurrentHashMap<>();
+    private final Map<String, TaskEntity> taskCache = new ConcurrentHashMap<>();
 
     @Value("${spring.application.name}")
     private String name;
@@ -44,7 +44,7 @@ public class TaskService {
     public void init() {
         System.out.println(">>> ЗАПУСК ПРИЛОЖЕНИЯ: " + name + " (v" + appVersion + ")");
         System.out.println(">>> @PostConstruct: Данные загружаются в кэш...");
-        Task demoTask = new Task("1", "Изучить Spring", "Не зря же Сурен и Бобряковы объясняли", false);
+        TaskEntity demoTask = new TaskEntity("1", "Изучить Spring", "Не зря же Сурен и Бобряковы объясняли", false);
         repository.save(demoTask);
         taskCache.put(demoTask.getId(), demoTask);
         System.out.println(">>> @PostConstruct: Кэш инициализирован. Задач в кэше: " + taskCache.size());
@@ -63,14 +63,14 @@ public class TaskService {
     /**
      * Получить все задачи.
      */
-    public List<Task> getAllTasks() {
+    public List<TaskEntity> getAllTasks() {
         return repository.findAll();
     }
 
     /**
      * Получить задачу по ID.
      */
-    public Optional<Task> getTaskById(String id) {
+    public Optional<TaskEntity> getTaskById(String id) {
         if (taskCache.containsKey(id)) {
             System.out.println(">>> Взято из кэша: " + id);
             return Optional.of(taskCache.get(id));
@@ -81,8 +81,8 @@ public class TaskService {
     /**
      * Создать или обновить задачу.
      */
-    public Task saveTask(Task task) {
-        Task saved = repository.save(task);
+    public TaskEntity saveTask(TaskEntity task) {
+        TaskEntity saved = repository.save(task);
         taskCache.put(saved.getId(), saved);
         return saved;
     }

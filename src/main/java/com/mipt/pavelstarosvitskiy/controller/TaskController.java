@@ -1,6 +1,8 @@
 package com.mipt.pavelstarosvitskiy.controller;
 
-import com.mipt.pavelstarosvitskiy.model.Task;
+import com.mipt.pavelstarosvitskiy.dto.TaskDto;
+import com.mipt.pavelstarosvitskiy.mapper.TaskMapper;
+import com.mipt.pavelstarosvitskiy.model.TaskEntity;
 import com.mipt.pavelstarosvitskiy.service.PrototypeScopedBean;
 import com.mipt.pavelstarosvitskiy.service.RequestScopedBean;
 import com.mipt.pavelstarosvitskiy.service.TaskService;
@@ -23,12 +25,16 @@ import java.util.List;
 @RequestMapping("/api/tasks")
 public class TaskController {
     private final TaskService taskService;
+    private final TaskMapper taskMapper;
 
     private final RequestScopedBean requestScopedBean;
     private final PrototypeScopedBean prototypeScopedBean;
 
-    public TaskController(TaskService taskService, RequestScopedBean requestScopedBean, PrototypeScopedBean prototypeScopedBean) {
+
+    public TaskController(TaskService taskService, TaskMapper taskMapper, RequestScopedBean requestScopedBean, PrototypeScopedBean prototypeScopedBean) {
         this.taskService = taskService;
+        this.taskMapper = taskMapper;
+
         this.requestScopedBean = requestScopedBean;
         this.prototypeScopedBean = prototypeScopedBean;
 
@@ -39,8 +45,12 @@ public class TaskController {
      * POST /api/tasks Создать новую задачу. Принимает JSON с задачей, возвращает созданную задачу.
      */
     @PostMapping
-    public Task createTask(@RequestBody Task task) {
-        return taskService.saveTask(task);
+    public TaskDto createTask(@RequestBody TaskDto taskDto) {
+        TaskEntity entity = taskMapper.toEntity(taskDto);
+
+        TaskEntity savedEntity = taskService.saveTask(entity);
+
+        return taskMapper.toDto(savedEntity);
     }
 
     /**
@@ -49,8 +59,8 @@ public class TaskController {
      * Возвращает 200 OK и задачу, либо 404 Not Found.
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Task> getTaskById(@PathVariable String id) {
-        return taskService.getTaskById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<TaskDto> getTaskById(@PathVariable String id) {
+        return taskService.getTaskById(id).map(taskMapper::toDto).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     /**
@@ -58,11 +68,11 @@ public class TaskController {
      * Получить список всех задач.
      */
     @GetMapping
-    public List<Task> getAllTasks() {
+    public List<TaskDto> getAllTasks() {
         System.out.println("Обработка запроса: " + requestScopedBean.getRequestId());
         System.out.println("Prototype внутри контроллера: " + prototypeScopedBean.getInstanceId());
 
-        return taskService.getAllTasks();
+        return taskMapper.toDtoList(taskService.getAllTasks());
     }
 
     /**
@@ -71,9 +81,12 @@ public class TaskController {
      * Если задачи нет, она будет создана (в данной реализации InMemory репозитория).
      */
     @PutMapping("/{id}")
-    public Task updateTask(@PathVariable String id, @RequestBody Task task) {
-        task.setId(id);
-        return taskService.saveTask(task);
+    public TaskDto updateTask(@PathVariable String id, @RequestBody TaskDto taskDto) {
+        TaskEntity entity = taskMapper.toEntity(taskDto);
+        entity.setId(id);
+
+        TaskEntity updatedEntity = taskService.saveTask(entity);
+        return taskMapper.toDto(updatedEntity);
     }
 
     /**

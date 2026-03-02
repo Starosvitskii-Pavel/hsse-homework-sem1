@@ -3,6 +3,8 @@ package com.mipt.pavelstarosvitskiy.aspect;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -13,6 +15,8 @@ import java.util.Arrays;
 @Aspect
 @Component
 public class LoggingAspect {
+    private static final Logger log = LoggerFactory.getLogger(LoggingAspect.class);
+
     @Around("execution(* com.mipt.pavelstarosvitskiy.service..*(..))")
     public Object logExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
         long start = System.currentTimeMillis();
@@ -20,21 +24,19 @@ public class LoggingAspect {
         String methodName = joinPoint.getSignature().getName();
         Object[] args = joinPoint.getArgs();
 
-        System.out.println("AOP: Начинаем выполнение метода: " + methodName);
-        System.out.println("AOP: Аргументы: " + Arrays.toString(args));
+        log.info("AOP: Начинаем выполнение метода: {} с аргументами: {}", methodName, Arrays.toString(args));
 
         Object result;
         try {
             result = joinPoint.proceed();
         } catch (Throwable e) {
-            System.out.println("AOP: Ошибка в методе " + methodName + ": " + e.getMessage());
+            log.error("AOP: Ошибка в методе {}: {}", methodName, e.getMessage());
             throw e;
         }
 
         long executionTime = System.currentTimeMillis() - start;
 
-        System.out.println("AOP: Метод " + methodName + " выполнен за " + executionTime + "мс");
-        System.out.println("AOP: Результат: " + result);
+        log.info("AOP: Метод {} выполнен за {} мс с результатом: {}", methodName, executionTime, result);
 
         return result;
     }

@@ -1,6 +1,6 @@
 package com.mipt.pavelstarosvitskiy.repository;
 
-import com.mipt.pavelstarosvitskiy.model.Task;
+import com.mipt.pavelstarosvitskiy.model.TaskEntity;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,19 +10,19 @@ import java.util.Optional;
  */
 public class StubTaskRepository implements TaskRepository {
     @Override
-    public Task save(Task task) {
+    public TaskEntity save(TaskEntity task) {
         return task;
     }
 
     @Override
-    public Optional<Task> findById(String id) {
-        return Optional.of(new Task("1", "Stub task", "Description", false));
+    public Optional<TaskEntity> findById(String id) {
+        return Optional.of(new TaskEntity("1", "Stub task", "Description", false));
     }
 
     @Override
-    public List<Task> findAll() {
-        return List.of(new Task("1", "Stub task 1", "Description 1", false),
-                new Task("2", "Stub task 2", "Description 2", true));
+    public List<TaskEntity> findAll() {
+        return List.of(new TaskEntity("1", "Stub task 1", "Description 1", false),
+                new TaskEntity("2", "Stub task 2", "Description 2", true));
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.mipt.pavelstarosvitskiy.repository;
 
-import com.mipt.pavelstarosvitskiy.model.Task;
+import com.mipt.pavelstarosvitskiy.model.TaskEntity;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 
@@ -17,10 +17,10 @@ import java.util.concurrent.ConcurrentHashMap;
 @Repository
 @Primary
 public class InMemoryTaskRepository implements TaskRepository {
-    private final Map<String, Task> tasks = new ConcurrentHashMap<>();
+    private final Map<String, TaskEntity> tasks = new ConcurrentHashMap<>();
 
     @Override
-    public Task save(Task task) {
+    public TaskEntity save(TaskEntity task) {
         if (task.getId() == null) {
             task.setId(UUID.randomUUID().toString());
         }
@@ -30,12 +30,12 @@ public class InMemoryTaskRepository implements TaskRepository {
     }
 
     @Override
-    public Optional<Task> findById(String id) {
+    public Optional<TaskEntity> findById(String id) {
         return Optional.ofNullable(tasks.get(id));
     }
 
     @Override
-    public List<Task> findAll() {
+    public List<TaskEntity> findAll() {
         return new ArrayList<>(tasks.values());
     }
 

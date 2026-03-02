@@ -1,6 +1,6 @@
 package com.mipt.pavelstarosvitskiy.service;
 
-import com.mipt.pavelstarosvitskiy.model.Task;
+import com.mipt.pavelstarosvitskiy.model.TaskEntity;
 import com.mipt.pavelstarosvitskiy.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -32,8 +32,8 @@ public class TaskStatisticsService {
      * Метод для сравнения количества задач в разных репозиториях.
      */
     public void printComparison() {
-        List<Task> primaryTasks = primaryRepository.findAll();
-        List<Task> stubTasks = stubRepository.findAll();
+        List<TaskEntity> primaryTasks = primaryRepository.findAll();
+        List<TaskEntity> stubTasks = stubRepository.findAll();
 
         System.out.println("--- Статистика репозиториев ---");
         System.out.println("Основной (InMemory) содержит задач: " + primaryTasks.size());

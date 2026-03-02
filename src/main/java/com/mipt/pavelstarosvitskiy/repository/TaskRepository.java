@@ -1,6 +1,6 @@
 package com.mipt.pavelstarosvitskiy.repository;
 
-import com.mipt.pavelstarosvitskiy.model.Task;
+import com.mipt.pavelstarosvitskiy.model.TaskEntity;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,7 +16,7 @@ public interface TaskRepository {
      * @param task задача для сохранения
      * @return сохраненная задача
      */
-    Task save(Task task);
+    TaskEntity save(TaskEntity task);
 
     /**
      * Найти задачу по ID.
@@ -24,14 +24,14 @@ public interface TaskRepository {
      * @param id идентификатор задачи
      * @return Optional с задачей или пустой Optional, если задача не найдена
      */
-    Optional<Task> findById(String id);
+    Optional<TaskEntity> findById(String id);
 
     /**
      * Получить список всех задач.
      *
      * @return список задач
      */
-    List<Task> findAll();
+    List<TaskEntity> findAll();
 
     /**
      * Удалить задачу по ID.
